@@ -1,6 +1,5 @@
 from pydantic import BaseModel, EmailStr
-
-
+from datetime import datetime
 
 class Token(BaseModel):
     access_token: str
@@ -14,18 +13,17 @@ class UserCreate(BaseModel):
     password: str
 
 
-# For outputting user info safely (no password)
-class UserOut(BaseModel):
-    id: int
-    email: EmailStr
-    class Config:
-        orm_mode = True
-
-
+# For user login input
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
 
 
+# For outputting user info safely (no password)
+class UserOut(BaseModel):
+    id: int
+    email: EmailStr
+    created_at: datetime
 
-
+    class Config:
+        orm_mode = True
