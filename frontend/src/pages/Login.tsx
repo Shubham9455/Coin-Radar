@@ -1,17 +1,17 @@
 // src/pages/Login.tsx
 import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import client from "@/api/client"
-import { useAuth } from "@/auth/tokenContext"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import client from "../api/client"
+import { useAuth } from "../auth/tokenContext"
+import { Card, CardContent } from "../components/ui/card"
+import { Input } from "../components/ui/input"
+import { Button } from "../components/ui/button"
 import { toast } from "sonner"
 
 export default function Login() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
-  const { token,setToken } = useAuth()
+  const { token, setToken } = useAuth()
   const navigate = useNavigate()
   useEffect(() => {
     if (token) {
@@ -58,6 +58,15 @@ export default function Login() {
           <Button className="w-full" onClick={handleLogin}>
             Login
           </Button>
+          <p className="text-sm text-center text-muted-foreground">
+            Don't have an account?{" "}
+            <span
+              className="text-blue-500 cursor-pointer"
+              onClick={() => navigate("/register")}
+            >
+              Register
+            </span>
+          </p>
         </CardContent>
       </Card>
     </div>

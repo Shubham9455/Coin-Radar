@@ -5,7 +5,6 @@ from functools import lru_cache
 class Settings(BaseSettings):
     DATABASE_URL: str
     SECRET_KEY: str
-    REFRESH_SECRET_KEY: str
 
     class Config:
         env_file = ".env"

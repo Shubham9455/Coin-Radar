@@ -1,23 +1,39 @@
-import React from 'react'
-import { Button } from '../components/ui/button'
-import { useAuth } from '../auth/tokenContext'
-import { useNavigate } from 'react-router-dom'
+// src/pages/Dashboard.tsx
+import { useAuth } from "../auth/tokenContext"
+import { Button } from "../components/ui/button"
+import { useNavigate } from "react-router-dom"
 
-function Dashboard() {
+export default function Dashboard() {
   const { logout } = useAuth()
   const navigate = useNavigate()
+
   const handleLogout = () => {
     logout()
-    navigate("/login")
+    navigate("/")
   }
+
   return (
-    <div>
-      <h1>Dashboard Page</h1>
-      <Button onClick={handleLogout} className="bg-red-500 hover:bg-red-600 text-white">
-        Logout
-      </Button>
+    <div className="min-h-screen flex flex-col">
+      {/* Navbar */}
+      <nav className="flex items-center justify-between bg-slate-900 text-white px-4 py-3 shadow">
+        <div className="text-xl font-bold">CoinRadar</div>
+        <div className="space-x-4">
+          <Button variant="ghost" onClick={() => navigate("/")}>
+            Home
+          </Button>
+          <Button variant="ghost" onClick={handleLogout}>
+            Logout
+          </Button>
+        </div>
+      </nav>
+
+      {/* Content */}
+      <main className="flex-grow p-6 bg-slate-50">
+        <h2 className="text-2xl font-semibold mb-4">Dashboard</h2>
+        <p className="text-muted-foreground">
+          Welcome! Here’s your dashboard data.
+        </p>
+      </main>
     </div>
   )
 }
-
-export default Dashboard

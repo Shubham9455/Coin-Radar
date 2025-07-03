@@ -8,8 +8,6 @@ from app.core.security import (
     hash_password,
     verify_password,
     create_access_token,
-    create_refresh_token,
-    decode_refresh_token
 )
 from app.api.deps import get_current_user
 
@@ -41,23 +39,10 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
     token_data = {"sub": user.email}
     return {
         "access_token": create_access_token(token_data),
-        "refresh_token": create_refresh_token(token_data),
         "token_type": "bearer"
     }
 
 
-@router.post("/refresh", response_model=Token)
-def refresh_token(refresh_token: str):
-    payload = decode_refresh_token(refresh_token)
-    if not payload or "sub" not in payload:
-        raise HTTPException(status_code=401, detail="Invalid refresh token")
-
-    token_data = {"sub": payload["sub"]}
-    return {
-        "access_token": create_access_token(token_data),
-        "refresh_token": create_refresh_token(token_data),  # you can rotate here
-        "token_type": "bearer"
-    }
 
 
 @router.get("/me", response_model=UserOut)

@@ -1,10 +1,10 @@
 // src/pages/Register.tsx
 import { useState } from "react"
 import { useNavigate } from "react-router-dom"
-import client from "@/api/client"
-import { Card, CardContent } from "@/components/ui/card"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import client from "../api/client"
+import { Card, CardContent } from "../components/ui/card"
+import { Input } from "../components/ui/input"
+import { Button } from "../components/ui/button"
 import { toast } from "sonner"
 
 export default function Register() {
@@ -42,6 +42,15 @@ export default function Register() {
           <Button className="w-full" onClick={handleRegister}>
             Create Account
           </Button>
+          <p className="text-sm text-center text-muted-foreground">
+            Already have an account?{" "}
+            <span
+              className="text-blue-500 cursor-pointer"
+              onClick={() => navigate("/login")}
+            >
+              Login
+            </span>
+          </p>
         </CardContent>
       </Card>
     </div>
