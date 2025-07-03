@@ -1,16 +1,24 @@
 // src/pages/Register.tsx
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import client from "../api/client"
 import { Card, CardContent } from "../components/ui/card"
 import { Input } from "../components/ui/input"
 import { Button } from "../components/ui/button"
 import { toast } from "sonner"
-
+import { useAuth } from "../auth/tokenContext"
 export default function Register() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
+  const { token } = useAuth();
   const navigate = useNavigate()
+  useEffect(() => {
+    // Redirect to dashboard if already logged in
+    if (token) {
+      navigate("/dashboard")
+    }
+  }, [navigate])
+
 
   const handleRegister = async () => {
     try {
