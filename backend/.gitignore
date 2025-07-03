@@ -1,0 +1,35 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*.so
+
+# Virtual environment
+
+.venv/
+
+# Poetry
+poetry.lock
+
+# VSCode settings
+.vscode/
+
+# Pytest cache
+.pytest_cache/
+
+# MyPy cache
+.mypy_cache/
+
+# Coverage reports
+htmlcov/
+coverage.xml
+*.cover
+*.py,cover
+.cache
+
+# Logs
+*.log
+
+# Environments
+.env
+.env.*
+
