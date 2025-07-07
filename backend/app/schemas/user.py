@@ -11,6 +11,7 @@ class Token(BaseModel):
 class UserCreate(BaseModel):
     email: EmailStr
     password: str
+    
 
 
 # For user login input
