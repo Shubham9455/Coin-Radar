@@ -70,16 +70,14 @@ Coin Radar is a FastAPI-based backend with a React frontend for tracking cryptoc
    npm run dev
    ```
 
----
 
 ## 📬 Linking Telegram
 
-1. Open the bot in Telegram: [t.me/YOUR\_BOT\_USERNAME](https://t.me/YOUR_BOT_USERNAME)
+1. Open the bot in Telegram: ```@coinradar1155_bot```
 2. On frontend, go to **Telegram Connect**
 3. Copy the code and send it to the bot
 4. Click “I’ve sent the code” to link your Telegram
 
----
 
 ## 🔐 Auth Flow
 
@@ -87,14 +85,5 @@ Coin Radar is a FastAPI-based backend with a React frontend for tracking cryptoc
 * Frontend saves token in `localStorage`
 * Token is sent in `Authorization: Bearer <token>` for secure API access
 
----
-
-## 📅 Coming Soon
-
-* Real-time price updates via WebSocket
-* Advanced Telegram commands
-* Alert history and logs
-
----
 
 
