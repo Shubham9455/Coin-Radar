@@ -55,6 +55,7 @@ export default function Navbar() {
               <Button
                 variant="ghost"
                 className="rounded-md px-2 py-2 text-white text-center justify-center"
+                onClick={() => navigate("/telegram")}
               >
                 <BellIcon className="w-4 h-4" />
               </Button>

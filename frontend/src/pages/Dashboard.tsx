@@ -2,22 +2,15 @@ import { useAuth } from "../auth/tokenContext"
 import { Button } from "../components/ui/button"
 import { useNavigate } from "react-router-dom"
 import { Card } from "../components/ui/card"
-import { Input } from "../components/ui/input"
-import {Switch} from '../components/ui/switch' 
 import { useState } from "react"
 
 import {
-  BadgeCheck,
   BellPlus,
-  Bookmark,
-  Clock3,
+  Flame,
+  Gauge,
   Newspaper,
-  Save,
-  SaveIcon,
-  Star,
+  Signal,
 } from "lucide-react"
-
-
 
 const tempAlerts = [
   {
@@ -67,8 +60,9 @@ const tempAlerts = [
   },
 ]
 
+
 export default function Dashboard() {
-  const { user,logout } = useAuth()
+  const { user, logout } = useAuth()
   const navigate = useNavigate()
   const [search, setSearch] = useState("")
 
@@ -77,33 +71,57 @@ export default function Dashboard() {
     navigate("/")
   }
 
+  const kpiData = [
+    {
+      icon: <Flame className="text-red-500 w-[56px] h-[56px]" />,
+      value: 5,
+      label: "Active Alerts",
+    },
+    {
+      icon: <Gauge className="text-blue-500 w-[56px] h-[56px]" />,
+      value: 3,
+      label: "Total Exchanges",
+    },
+    {
+      icon: <Signal className="text-green-500 w-[56px] h-[56px]" />,
+      value: 2,
+      label: "Triggered Today",
+    },
+    {
+      icon: <Newspaper className="text-yellow-500 w-[56px] h-[56px]" />,
+      value: 4,
+      label: "News Alerts",
+    },
+  ]
+
   return (
-    <main className="flex flex-col flex-grow py-6 px-8">
-      {/* Welcome Card */}
-      <Card className="w-full p-6 mb-6 bg-white " 
-      >
-        <h2 className="text-2xl font-semibold mb-2">
-          Hi {user?.email.slice(0, user.email.indexOf("@")) || "there"}!
-        </h2>
-        <p className="text-muted-foreground">
-          Track your favorite cryptocurrencies and get notified with alerts.
-        </p>
-      </Card>
+    <main className="flex flex-col flex-grow p-6 md:p-10">
+      <h2 className="text-2xl font-semibold mb-4">
+        Hi {user?.email.split("@")[0] || "there"} 👋
+      </h2>
 
-      {/* Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-5 gap-6 flex-grow min-h-0">
+      {/* KPI Cards */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+        {kpiData.map((item, i) => (
+          <Card key={i} className="min-h-[120px] flex flex-row items-center justify-center py-6 px-4 text-center shadow-sm">
+            <div className="mb-2">{item.icon}</div>
+            <h3 className="text-5xl font-bold text-gray-800">{item.value}</h3>
+            <p className="text-sm text-gray-500">{item.label}</p>
+          </Card>
+        ))}
+      </div>
 
-        {/* Alerts */}
-        {/* Alerts */}
-        <Card className="col-span-5 md:col-span-5 flex flex-col p-4">
+      {/* Alerts Section */}
+      <div className="grid grid-cols-1 md:grid-cols-12 gap-6 flex-grow">
+        <Card className="col-span-12 md:col-span-9 p-4">
           <div className="flex items-center justify-between mb-4">
-            <h3 className="text-xl font-semibold">Price Alerts</h3>
+            <h3 className="text-xl font-semibold">📈 Price Alerts</h3>
             <Button size="sm">+ Add Alert</Button>
           </div>
 
           <div className="overflow-auto rounded-lg border border-gray-200">
             <table className="min-w-full text-sm text-left">
-              <thead className="bg-slate-100 text-gray-700 font-semibold text-xs md:text-sm">
+              <thead className="bg-gray-100 text-gray-700 font-semibold text-xs md:text-sm">
                 <tr>
                   <th className="px-4 py-3">Name</th>
                   <th className="px-4 py-3">Exchange</th>
@@ -121,7 +139,8 @@ export default function Dashboard() {
                 {tempAlerts.map((alert, index) => (
                   <tr key={index} className="hover:bg-slate-50 transition">
                     <td className="px-4 py-3 font-medium text-gray-800">
-                      {alert.name} <span className="text-gray-500 text-xs">({alert.symbol})</span>
+                      {alert.name}
+                      <span className="text-gray-500 text-xs"> ({alert.symbol})</span>
                     </td>
                     <td className="px-4 py-3">{alert.exchange}</td>
                     <td className="px-4 py-3 capitalize">{alert.condition}</td>
@@ -130,28 +149,43 @@ export default function Dashboard() {
                     </td>
                     <td className="px-4 py-3">${alert.current_price.toLocaleString()}</td>
                     <td className="px-4 py-3">
-                      <span
-                        className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${alert.is_active ? "bg-green-100 text-green-800" : "bg-gray-200 text-gray-500"
-                          }`}
-                      >
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${alert.is_active
+                        ? "bg-green-100 text-green-700"
+                        : "bg-gray-200 text-gray-500"
+                        }`}>
                         {alert.is_active ? "Active" : "Inactive"}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-xs">{new Date(alert.created_at).toLocaleDateString()}</td>
                     <td className="px-4 py-3 text-xs">
-                      {alert.last_triggered ? new Date(alert.last_triggered).toLocaleString() : "—"}
+                      {new Date(alert.created_at).toLocaleDateString()}
+                    </td>
+                    <td className="px-4 py-3 text-xs">
+                      {alert.last_triggered
+                        ? new Date(alert.last_triggered).toLocaleString()
+                        : "—"}
                     </td>
                     <td className="px-4 py-3 text-xs italic text-gray-600 max-w-[160px] truncate">
                       {alert.note || "—"}
                     </td>
                     <td className="px-4 py-3 text-xs space-x-1">
-                      {alert.notify_email && <span className="text-blue-600">📧</span>}
-                      {alert.notify_popup && <span className="text-amber-600">🔔</span>}
+                      {alert.notify_email && <span title="Email" className="text-blue-600">📧</span>}
+                      {alert.notify_popup && <span title="Popup" className="text-yellow-600">🔔</span>}
                     </td>
                   </tr>
                 ))}
               </tbody>
             </table>
+          </div>
+        </Card>
+
+        {/* News Section */}
+        <Card className="col-span-12 md:col-span-3 p-4">
+          <div className="flex items-center justify-between mb-4">
+            <h3 className="text-xl font-semibold">📰 News Alerts</h3>
+            <Button size="sm">+ Add Alert</Button>
+          </div>
+          <div className="text-sm text-gray-500 italic">
+            No recent news alerts. Add new alert to stay informed.
           </div>
         </Card>
       </div>

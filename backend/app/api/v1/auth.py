@@ -89,7 +89,7 @@ async def link_telegram(code: str,  db : Session = Depends(get_db), current_user
     # Step 3: Save telegram_chat_id in user model
     current_user.telegram_chat_id = str(matched_chat_id)
     db.commit()
-    send_telegram_message(matched_chat_id, f"Hi {current_user.email}, your Telegram account has been linked successfully!")
+    send_telegram_message(matched_chat_id, f"Link Telegram \nHi {current_user.email}, your Telegram account has been linked successfully!")
     return {"message": "Telegram linked successfully"}
 
 
@@ -102,7 +102,7 @@ async def unlink_telegram(db: Session = Depends(get_db), current_user: User = De
     current_user.telegram_chat_id = None
     db.commit()
     
-    # Step 2: Send confirmation message to user
-    send_telegram_message(chat_id, f"Hi {current_user.email}, your Telegram account has been unlinked successfully!")
+    # Step 2: Send confirmation message in to user
+    send_telegram_message(chat_id, f"Unlink Telegram \nHi {current_user.email}, your Telegram account has been unlinked successfully!")
     
     return {"message": "Telegram unlinked successfully"}
