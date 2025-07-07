@@ -4,6 +4,9 @@ import { Card } from '../components/ui/card'
 import { Input } from '../components/ui/input'
 import { BellPlus, Newspaper, Bookmark } from 'lucide-react'
 import { useState } from 'react'
+import { 
+Select, SelectContent, SelectGroup, SelectItem, SelectTrigger, SelectValue
+} from '../components/ui/select'
 type Coin = {
   id: string
   name: string
@@ -43,14 +46,74 @@ const dummyCoinData: Coin[] = [
 ]
 
 
+type FilterType = {
+  minMarketCap?: number | null
+  maxMarketCap?: number | null
+  minPriceChange?: number | null
+  maxPriceChange?: number | null
+  minVol24H?: number | null
+  maxVol24H?: number | null
+  minVolChange24H?: number | null
+  maxVolChange24H?: number | null
+  topXbyMarketCap?: "top20" | "top50" | "top100" | null
+}
 
 function Coins() {
+  const [source, setSource] = useState('')
   const [search, setSearch] = useState('')
+  const [filters, setFilters] = useState<FilterType>({})
+  const [customFilterScript, setCustomFilterScript] = useState('');
 
+  // validate the custom filter script
+  // TODO: Implement validation logic
+  // script can use only provided filter variables
+  // and should only contain +-*/()^ '>=' '<=' '>' '<' '==' '!='
+  const validateScript = (script: string): boolean => {
+    const allowedChars = /^[\d\s+\-*/().<>=!&|a-zA-Z_]+$/
+    return allowedChars.test(script)
+  }
+
+
+
+  const filteredCoins = dummyCoinData.filter(coin => {
+    const nameMatch =
+      coin.name.toLowerCase().includes(search.toLowerCase()) ||
+      coin.symbol.toLowerCase().includes(search.toLowerCase())
+
+    // Example: Market cap rank filter
+    const withinTopX = filters.topXbyMarketCap
+      ? coin.market_cap_rank <= parseInt(filters.topXbyMarketCap.replace('top', ''))
+      : true
+
+    return nameMatch && withinTopX
+  })
+
+  // Future API fetch (not implemented yet)
+  const fetchData = async () => {
+    // const response = await fetch(`/api/coins?source=${source}`)
+    // const data = await response.json()
+    // ...
+  }
 
   return (
     <div>
       <Card className="col-span-5 md:col-span-4 flex flex-col p-4">
+        <h3>Source</h3>
+        <Select
+          value={source}
+          onValueChange={setSource}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="Select Data Source" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectItem value="coingecko">CoinGecko</SelectItem>
+              <SelectItem value="coinmarketcap">CoinMarketCap</SelectItem>
+              <SelectItem value="binance">Binance (Live Prices)</SelectItem>
+            </SelectGroup>
+          </SelectContent>
+        </Select>
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-xl font-semibold">Live Coins</h3>
           <Input
@@ -75,7 +138,8 @@ function Coins() {
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {dummyCoinData.map((coin) => (
+
+                {filteredCoins.map((coin) => (
                   <tr key={coin.id} className="hover:bg-slate-50 transition">
                     <td className="px-4 py-3 font-medium">
                       {coin.name} <span className="text-gray-500">({coin.symbol})</span>
@@ -110,6 +174,9 @@ function Coins() {
                 ))}
               </tbody>
             </table>
+            {filteredCoins.length === 0 && (
+              <div className="text-center text-gray-500 py-4">No coins match your filter</div>
+            )}
           </div>
         </div>
 

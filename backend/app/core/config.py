@@ -5,6 +5,7 @@ from functools import lru_cache
 class Settings(BaseSettings):
     DATABASE_URL: str
     SECRET_KEY: str
+    TELEGRAM_BOT_TOKEN: str = None
 
     class Config:
         env_file = ".env"

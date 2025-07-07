@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.db.models.alerts import Alerts
 from app.schemas.alerts import AlertCreate, AlertUpdate, AlertOut
-from app.api.deps import get_current_user
+from app.api.deps.auth import get_current_user
 from app.db.models.user import User
 
 

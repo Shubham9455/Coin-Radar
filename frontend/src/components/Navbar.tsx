@@ -1,8 +1,8 @@
 import { Button } from "../components/ui/button"
 import { useAuth } from "../auth/tokenContext"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { LogIn, LogOut, UserPlus } from "lucide-react"
-
+import { BellIcon, LogIn, LogOut, UserPlus } from "lucide-react"
+import {  } from "lucide-react"
 const navLinks = [
   { to: "/dashboard", label: "Dashboard" },
   { to: "/coins", label: "Coins" },
@@ -51,14 +51,22 @@ export default function Navbar() {
         {/* Auth buttons */}
         <div className="flex items-center gap-2">
           {token ? (
-            <Button
-              variant="destructive"
-              onClick={handleLogout}
-              className="rounded-md px-4 py-2"
-            >
-              <LogOut className="w-4 h-4 mr-2" />
-              Logout
-            </Button>
+            <div className="flex gap-3">
+              <Button
+                variant="ghost"
+                className="rounded-md px-2 py-2 text-white text-center justify-center"
+              >
+                <BellIcon className="w-4 h-4" />
+              </Button>
+              <Button
+                variant="destructive"
+                onClick={handleLogout}
+                className="rounded-md px-4 py-2"
+              >
+                <LogOut className="w-4 h-4 mr-2" />
+                Logout
+              </Button>
+            </div>
           ) : (
             <>
               <Link to="/login">
