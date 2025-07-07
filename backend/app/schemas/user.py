@@ -22,9 +22,8 @@ class UserLogin(BaseModel):
 
 # For outputting user info safely (no password)
 class UserOut(BaseModel):
-    id: int
     email: EmailStr
-    created_at: datetime
+    telegram_linked: bool = False
 
     model_config = {
         "from_attributes": True

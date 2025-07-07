@@ -55,7 +55,7 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
             type="password"
           />
-          <Button className="w-full" onClick={handleLogin}>
+          <Button className="w-full" onClick={handleLogin} disabled={!email || !password}>
             Login
           </Button>
           <p className="text-sm text-center text-muted-foreground">

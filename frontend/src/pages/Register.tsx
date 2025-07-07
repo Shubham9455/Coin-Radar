@@ -47,7 +47,7 @@ export default function Register() {
             onChange={(e) => setPassword(e.target.value)}
             type="password"
           />
-          <Button className="w-full" onClick={handleRegister}>
+          <Button className="w-full" onClick={handleRegister} disabled={!email || !password}>
             Create Account
           </Button>
           <p className="text-sm text-center text-muted-foreground">

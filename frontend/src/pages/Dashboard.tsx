@@ -68,7 +68,7 @@ const tempAlerts = [
 ]
 
 export default function Dashboard() {
-  const { logout } = useAuth()
+  const { user,logout } = useAuth()
   const navigate = useNavigate()
   const [search, setSearch] = useState("")
 
@@ -77,14 +77,14 @@ export default function Dashboard() {
     navigate("/")
   }
 
-
-
   return (
     <main className="flex flex-col flex-grow py-6 px-8">
       {/* Welcome Card */}
       <Card className="w-full p-6 mb-6 bg-white " 
       >
-        <h2 className="text-2xl font-semibold mb-2">Welcome to CoinRadar</h2>
+        <h2 className="text-2xl font-semibold mb-2">
+          Hi {user?.email.slice(0, user.email.indexOf("@")) || "there"}!
+        </h2>
         <p className="text-muted-foreground">
           Track your favorite cryptocurrencies and get notified with alerts.
         </p>

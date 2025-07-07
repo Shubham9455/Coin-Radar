@@ -8,7 +8,7 @@ import Navbar from './components/Navbar'
 import Coins from './pages/Coins'
 import News from './pages/News'
 import { TelegramConnect } from './pages/TelegramSetup'
-
+import { Toaster } from 'sonner'
 export default function App() {
   return ( 
     <div className='min-h-screen flex flex-col bg-[#f1f5fd]'>
@@ -31,6 +31,7 @@ export default function App() {
         </ProtectedRoute>} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
+      <Toaster />
     </div>
   )
 }

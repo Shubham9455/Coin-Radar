@@ -41,13 +41,15 @@ def register(user: UserCreate, db: Session = Depends(get_db)):
 @router.post("/login", response_model=Token)
 def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depends(get_db)):
     user = db.query(User).filter(User.email == form_data.username).first()
-    if not user or not verify_password(form_data.password, user.hashed_password):
+    if not user:
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found, Please register first")
+    if not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
 
     token_data = {"sub": user.email}
     return {
         "access_token": create_access_token(token_data),
-        "token_type": "bearer"
+        "token_type": "bearer",
     }
 
 
@@ -55,7 +57,10 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
 
 @router.get("/me", response_model=UserOut)
 def get_me(current_user: User = Depends(get_current_user)):
-    return current_user
+    return UserOut(
+        email=current_user.email,
+        telegram_linked=bool(current_user.telegram_chat_id),
+    )
 
 
 @router.post("/link-telegram")
@@ -86,3 +91,18 @@ async def link_telegram(code: str,  db : Session = Depends(get_db), current_user
     db.commit()
     send_telegram_message(matched_chat_id, f"Hi {current_user.email}, your Telegram account has been linked successfully!")
     return {"message": "Telegram linked successfully"}
+
+
+@router.post("/unlink-telegram")
+async def unlink_telegram(db: Session = Depends(get_db), current_user: User = Depends(get_current_user)):
+    if not current_user.telegram_chat_id:
+        raise HTTPException(status_code=400, detail="Telegram account not linked")
+    chat_id = current_user.telegram_chat_id
+    # Step 1: Unlink Telegram account
+    current_user.telegram_chat_id = None
+    db.commit()
+    
+    # Step 2: Send confirmation message to user
+    send_telegram_message(chat_id, f"Hi {current_user.email}, your Telegram account has been unlinked successfully!")
+    
+    return {"message": "Telegram unlinked successfully"}

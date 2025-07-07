@@ -69,18 +69,7 @@ export default function Navbar() {
             </div>
           ) : (
             <>
-              <Link to="/login">
-                <Button variant="secondary" className="rounded-md px-4 py-2">
-                  <LogIn className="w-4 h-4 mr-2" />
-                  Login
-                </Button>
-              </Link>
-              <Link to="/register">
-                <Button variant="default" className="rounded-md px-4 py-2">
-                  <UserPlus className="w-4 h-4 mr-2" />
-                  Register
-                </Button>
-              </Link>
+             
             </>
           )}
         </div>
