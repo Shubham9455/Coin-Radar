@@ -2,6 +2,8 @@
 
 Coin Radar is a FastAPI-based backend with a React frontend for tracking cryptocurrency prices, setting alerts, and getting notified via Telegram. Users can register/login, set price conditions (above/below/between), and link their Telegram for real-time alerts.
 
+<img src="https://raw.githubusercontent.com/Shubham9455/Coin-Radar/main/coin-radar-design.jpg" alt="Basic Design" />
+
 
 ## 🚀 Features
 
