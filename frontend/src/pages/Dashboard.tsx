@@ -1,16 +1,15 @@
 import { useAuth } from "../auth/tokenContext"
 import { Button } from "../components/ui/button"
-import { useNavigate } from "react-router-dom"
 import { Card } from "../components/ui/card"
 import { useState } from "react"
 
 import {
-  BellPlus,
   Flame,
   Gauge,
   Newspaper,
   Signal,
 } from "lucide-react"
+import CreateAlertModal from "../components/CreateAlertModal"
 
 const tempAlerts = [
   {
@@ -62,14 +61,15 @@ const tempAlerts = [
 
 
 export default function Dashboard() {
-  const { user, logout } = useAuth()
-  const navigate = useNavigate()
-  const [search, setSearch] = useState("")
+  const [createAlertOpen, setCreateAlertOpen] = useState(false)
+  const { user } = useAuth()
+  // const navigate = useNavigate()
+  // const [search, setSearch] = useState("")
 
-  const handleLogout = () => {
-    logout()
-    navigate("/")
-  }
+  // const handleLogout = () => {
+  //   logout()
+  //   navigate("/")
+  // }
 
   const kpiData = [
     {
@@ -116,9 +116,10 @@ export default function Dashboard() {
         <Card className="col-span-12 md:col-span-9 p-4">
           <div className="flex items-center justify-between mb-4">
             <h3 className="text-xl font-semibold">📈 Price Alerts</h3>
-            <Button size="sm">+ Add Alert</Button>
+            <Button size="sm" onClick={() => setCreateAlertOpen(true)}>+ Add Alert</Button>
+            
           </div>
-
+          <CreateAlertModal open={createAlertOpen} setOpen={setCreateAlertOpen} />
           <div className="overflow-auto rounded-lg border border-gray-200">
             <table className="min-w-full text-sm text-left">
               <thead className="bg-gray-100 text-gray-700 font-semibold text-xs md:text-sm">

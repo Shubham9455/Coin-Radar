@@ -1,7 +1,7 @@
 import { Button } from "../components/ui/button"
 import { useAuth } from "../auth/tokenContext"
 import { Link, useLocation, useNavigate } from "react-router-dom"
-import { BellIcon, LogIn, LogOut, UserPlus } from "lucide-react"
+import { BellIcon, LogOut } from "lucide-react"
 import {  } from "lucide-react"
 const navLinks = [
   { to: "/dashboard", label: "Dashboard" },

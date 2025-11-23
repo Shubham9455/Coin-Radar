@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button } from '../components/ui/button'
 import { Card } from '../components/ui/card'
 import { Input } from '../components/ui/input'
@@ -43,7 +43,7 @@ function Coins() {
   const [currentPage, setCurrentPage] = useState(1)
   const [source, setSource] = useState('')
   const [search, setSearch] = useState('')
-  const [filters, setFilters] = useState<FilterType>({})
+  const [filters] = useState<FilterType>({})
   const [filteredCoins, setFilteredCoins] = useState<Coin[]>([])
 
   const totalPages = Math.ceil(filteredCoins.length / numResults)
