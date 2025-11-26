@@ -24,7 +24,7 @@ class UserLogin(BaseModel):
 class UserOut(BaseModel):
     email: EmailStr
     telegram_linked: bool = False
-
+    role: str | None = None
     model_config = {
         "from_attributes": True
     }

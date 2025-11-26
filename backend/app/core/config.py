@@ -6,7 +6,7 @@ class Settings(BaseSettings):
     DATABASE_URL: str
     SECRET_KEY: str
     TELEGRAM_BOT_TOKEN: str = None
-
+    TEST_DATABASE_URL: str = None
     class Config:
         env_file = ".env"
 

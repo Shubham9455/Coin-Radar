@@ -45,10 +45,12 @@ def login(form_data: OAuth2PasswordRequestForm = Depends(), db: Session = Depend
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="User not found, Please register first")
     if not verify_password(form_data.password, user.hashed_password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
-
-    token_data = {"sub": user.email}
+    data = {
+        "email": user.email,
+        "role": user.role
+    }
     return {
-        "access_token": create_access_token(token_data),
+        "access_token": create_access_token(data),
         "token_type": "bearer",
     }
 
@@ -60,6 +62,7 @@ def get_me(current_user: User = Depends(get_current_user)):
     return UserOut(
         email=current_user.email,
         telegram_linked=bool(current_user.telegram_chat_id),
+        role=current_user.role
     )
 
 
