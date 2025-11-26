@@ -92,7 +92,7 @@ export function TelegramConnect() {
             <p>
               1. Open{" "}
               <a
-                href="https://t.me/YOUR_BOT_USERNAME"
+                href="https://t.me/coinradar1155_bot"
                 className="text-blue-600 underline"
                 target="_blank"
                 rel="noopener noreferrer"

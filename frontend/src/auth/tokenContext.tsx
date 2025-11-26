@@ -64,7 +64,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   // Validate token on first load
   useEffect(() => {
     validateToken()
-  }, [token, logout])
+  }, [token])
 
   return (
     <AuthContext.Provider value={{ token, setToken, logout, user, validateToken }}>
