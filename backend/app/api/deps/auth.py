@@ -18,3 +18,14 @@ def get_current_user(token: str = Depends(oauth2_scheme), db: Session = Depends(
         raise HTTPException(status_code=404, detail="User not found")
     
     return user
+
+
+def verify_role(required_role: str):
+    def role_checker(current_user: User = Depends(get_current_user)):
+        if current_user.role != required_role:
+            raise HTTPException(
+                status_code=403,
+                detail=f"User does not have required role: {required_role}"
+            )
+        return True
+    return role_checker
